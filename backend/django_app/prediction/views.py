@@ -6,8 +6,6 @@ from . import apps
 import pandas as pd
 
 # Class based view to predict based on IRIS model
-
-
 class IRIS_MODEL_PREDICT(APIView):
     def post(self, request, format=None):
         data = request.data
