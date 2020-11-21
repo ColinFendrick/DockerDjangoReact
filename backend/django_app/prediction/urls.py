@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import IRIS_MODEL_PREDICT
+
 
 urlpatterns = [
-    path('predict', views.IRIS_MODEL_PREDICT.as_view(), name='api_predict')
+    path('predict', IRIS_MODEL_PREDICT.as_view(), name='api_predict')
 ]
