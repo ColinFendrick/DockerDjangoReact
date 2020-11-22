@@ -11,7 +11,7 @@ describe('Testing <App />', () => {
 
 	test('Shows the loading screen and nothing else', () => {
 		expect(
-			screen.getByText('Basic Setup:')
+			screen.getByText('Skeleton')
 		).toBeInTheDocument();
 	});
 });

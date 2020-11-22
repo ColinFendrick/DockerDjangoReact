@@ -2,16 +2,16 @@ import { screen } from '@testing-library/react';
 
 import { renderWith, setup } from '../../setupTests';
 
-import Copyright from './Copyright';
+import Footer from './Footer';
 
-describe('Testing <Copyright />', () => {
+describe('Testing <Footer />', () => {
 	setup(beforeEach)(
-		() => renderWith()(<Copyright />)
+		() => renderWith()(<Footer />)
 	);
 
 	test('Renders', () => {
 		expect(
-			screen.getByText('Your Website')
+			screen.getByText('Iris Species Predictor')
 		).toBeInTheDocument();
 	});
 });

@@ -1,15 +1,15 @@
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
 
-const Copyright = () => (
+const Footer = () =>(
 	<Typography variant='body2' color='textSecondary' align='center'>
 		{'Copyright © '}
 		<Link color='inherit' href='https://material-ui.com/'>
-      Your Website
+      Iris Species Predictor
 		</Link>{' '}
 		{new Date().getFullYear()}
 		{'.'}
 	</Typography>
 );
 
-export default Copyright;
+export default Footer;
