@@ -2,16 +2,16 @@ import { screen } from '@testing-library/react';
 
 import { renderWith, setup } from '../../setupTests';
 
-import Home from './Home';
+import Copyright from './Copyright';
 
-describe('Testing <Home />', () => {
+describe('Testing <Copyright />', () => {
 	setup(beforeEach)(
-		() => renderWith()(<Home />)
+		() => renderWith()(<Copyright />)
 	);
 
 	test('Renders', () => {
 		expect(
-			screen.getByText('React Skeleton')
+			screen.getByText('Your Website')
 		).toBeInTheDocument();
 	});
 });

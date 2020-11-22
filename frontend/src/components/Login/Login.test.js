@@ -2,16 +2,16 @@ import { screen } from '@testing-library/react';
 
 import { renderWith, setup } from '../../setupTests';
 
-import Home from './Home';
+import Login from './Login';
 
-describe('Testing <Home />', () => {
+describe('Testing <Login />', () => {
 	setup(beforeEach)(
-		() => renderWith()(<Home />)
+		() => renderWith()(<Login />)
 	);
 
 	test('Renders', () => {
 		expect(
-			screen.getByText('React Skeleton')
+			screen.getByText('Log in')
 		).toBeInTheDocument();
 	});
 });

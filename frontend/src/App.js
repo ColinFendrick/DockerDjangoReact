@@ -1,6 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 
-import { Home } from './components';
+import { Home, Login } from './components';
 
 const App = () => {
 	return (
@@ -8,6 +8,7 @@ const App = () => {
       Basic Setup:
 			<Switch>
 				<Route path='/' exact component={Home} />
+				<Route path='/login' exact component={Login} />
 			</Switch>
 		</div>
 	);
