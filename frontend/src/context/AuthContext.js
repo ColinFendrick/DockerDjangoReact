@@ -1,9 +1,15 @@
 import { useState, createContext } from 'react';
 
+const defaultContext = {
+	loading: false,
+	error: null,
+	token: null
+};
+
 const AuthContext = createContext([{}, () => {}]);
 
 const AuthProvider = ({ children }) => {
-	const [state, setState] = useState(null);
+	const [state, setState] = useState(defaultContext);
 
 	return (
 		<AuthContext.Provider value={[state, setState]}>
@@ -12,4 +18,8 @@ const AuthProvider = ({ children }) => {
 	);
 };
 
-export { AuthContext, AuthProvider };
+export {
+	defaultContext,
+	AuthContext,
+	AuthProvider
+};
