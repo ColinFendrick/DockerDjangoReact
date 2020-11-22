@@ -7,12 +7,15 @@ import './App.css';
 
 import App from './App';
 import ContextContainer from './containers/ContextContainer';
+import LayoutContainer from './containers/LayoutContainer';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
 	<BrowserRouter>
 		<ContextContainer>
-			<App />
+			<LayoutContainer>
+				<App />
+			</LayoutContainer>
 		</ContextContainer>
 	</BrowserRouter>,
 	document.getElementById('root')

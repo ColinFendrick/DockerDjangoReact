@@ -5,7 +5,7 @@ import { Header, Footer } from '../components/';
 const LayoutContainer = props => (
 	<>
 		<CssBaseline />
-		<Header {...props} />
+		<Header />
 		<div>
 			{props.children}
 		</div>

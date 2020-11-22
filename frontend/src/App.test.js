@@ -1,17 +1,28 @@
 import { screen } from '@testing-library/react';
 
-import { setup, renderWith, withRouter, withContext } from './setupTests';
+import { setup, render, withLayout, withRouter, withContext } from './setupTests';
 
 import App from './App';
 
 describe('Testing <App />', () => {
-	setup(beforeAll)(
-		() => renderWith(withContext, withRouter)(<App />)
+	setup(beforeEach)(
+		() => render(withLayout, withContext, withRouter)(<App />)
 	);
 
-	test('Shows the loading screen and nothing else', () => {
+	test('Shows the home page', () => {
 		expect(
-			screen.getByText('Skeleton')
+			screen.getByText(/Home Page/)
+		).toBeInTheDocument();
+	});
+
+	test('Has header and footer', () => {
+		expect(
+			screen.getByText(/Login/)
+		).toBeInTheDocument();
+
+
+		expect(
+			screen.getByText(/Copyright/)
 		).toBeInTheDocument();
 	});
 });

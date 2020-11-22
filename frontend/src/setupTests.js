@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render as rtlRender } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import ContextContainer from './containers/ContextContainer';
+import LayoutContainer from './containers/LayoutContainer';
 import { pipe } from './helpers/generics';
 
 const withWrapper = (Wrapper, wrapperProps = {}) => children =>
@@ -10,8 +11,9 @@ const withWrapper = (Wrapper, wrapperProps = {}) => children =>
 
 export const withRouter = withWrapper(BrowserRouter);
 export const withContext = withWrapper(ContextContainer);
+export const withLayout = withWrapper(LayoutContainer);
 
-export const renderWith = (...wrappers) => children => render(
+export const render = (...wrappers) => children => rtlRender(
 	pipe(...wrappers)(children)
 );
 

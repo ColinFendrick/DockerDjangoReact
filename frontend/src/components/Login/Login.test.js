@@ -1,12 +1,12 @@
 import { screen } from '@testing-library/react';
 
-import { renderWith, setup } from '../../setupTests';
+import { render, setup } from '../../setupTests';
 
 import Login from './Login';
 
 describe('Testing <Login />', () => {
 	setup(beforeEach)(
-		() => renderWith()(<Login />)
+		() => render()(<Login />)
 	);
 
 	test('Renders', () => {
