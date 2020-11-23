@@ -1,28 +1,28 @@
 import { screen } from '@testing-library/react';
 
 import { setup, render, withLayout, withRouter, withContext } from './setupTests';
+import * as settings from './settings';
 
 import App from './App';
 
 describe('Testing <App />', () => {
-	setup(beforeEach)(
-		() => render(withLayout, withContext, withRouter)(<App />)
+	setup(beforeEach, afterAll)(
+		[
+			() => {
+				localStorage.setItem('token', 'fake_token');
+				localStorage.setItem('expirationDate', new Date(new Date().getTime() + settings.SESSION_DURATION));
+			},
+			() => render(withLayout, withContext, withRouter)(<App />)
+		], [
+			() => {
+				localStorage.removeItem('token');
+				localStorage.removeItem('expirationDate');
+			}
+		]
 	);
 
-	test('Shows the home page', () => {
-		expect(
-			screen.getByText(/Home Page/)
-		).toBeInTheDocument();
-	});
-
-	test('Has header and footer', () => {
-		expect(
-			screen.getByText(/Login/)
-		).toBeInTheDocument();
-
-
-		expect(
-			screen.getByText(/Copyright/)
-		).toBeInTheDocument();
+	test('Will Redirect with Creds', async () => {
+		await screen.findByRole('button', { name: 'Logout' });
+		expect(localStorage.getItem('token')).toEqual('fake_token');
 	});
 });

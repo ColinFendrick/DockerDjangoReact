@@ -6,7 +6,7 @@ import ContextContainer from './containers/ContextContainer';
 import LayoutContainer from './containers/LayoutContainer';
 import { pipe } from './helpers/generics';
 
-const withWrapper = (Wrapper, wrapperProps = {}) => children =>
+export const withWrapper = (Wrapper, wrapperProps = {}) => children =>
 	<Wrapper {...wrapperProps}>{children}</Wrapper>;
 
 export const withRouter = withWrapper(BrowserRouter);

@@ -1,17 +1,21 @@
 import { screen } from '@testing-library/react';
 
-import { render, setup } from '../../setupTests';
+import { render, setup, withRouter, withContext } from '../../setupTests';
 
 import Login from './Login';
 
 describe('Testing <Login />', () => {
 	setup(beforeEach)(
-		() => render()(<Login />)
+		() => render(withRouter, withContext)(<Login />)
 	);
 
-	test('Renders', () => {
+	test('Renders Login', () => {
 		expect(
-			screen.getByText('Log in')
+			screen.getByRole('heading', { name: 'Log in' })
+		).toBeInTheDocument();
+
+		expect(
+			screen.getByRole('textbox', { name: 'User Name' })
 		).toBeInTheDocument();
 	});
 });
