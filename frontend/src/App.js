@@ -1,13 +1,40 @@
-import { Switch, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
+import { useAuthContext } from './hooks';
 import { Home, Login } from './components';
 
-const App = () => {
+const PrivateRoute = ({ isAuthenticated, children, ...rest }) => (
+	<Route
+		{...rest}
+		render={({ location }) => isAuthenticated ? (
+			children
+		) : (
+			<Redirect
+				to={{
+					pathname: '/login/',
+					state: { from: location }
+				}}
+			/>
+		)}
+	/>
+);
+
+
+const App = props => {
+	const { checkForToken, authState } = useAuthContext();
+
+	useEffect(() => checkForToken(),
+		[authState.token] // eslint-disable-line
+	);
+
 	return (
 		<div>
 			<Switch>
-				<Route path='/' exact component={Home} />
 				<Route path='/login' exact component={Login} />
+				<PrivateRoute exact path='/' isAuthenticated={!!authState.token}>
+					<Home {...props}/>
+				</PrivateRoute>
 			</Switch>
 		</div>
 	);

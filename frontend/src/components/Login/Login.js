@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,6 +8,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import { useAuthContext } from '../../hooks';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -29,6 +33,28 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
 	const classes = useStyles();
+	const [state, setState] = useState({
+		username: '', password: ''
+	});
+	const { authState, login } = useAuthContext();
+	const history = useHistory();
+	const location = useLocation();
+	const { from } = location.state || { from: { pathname: '/' }};
+
+	useEffect(() => {
+		if (authState.token !== null) {
+			history.replace(from);
+		}
+	}, [authState.token, from, history]);
+
+
+	const handleChange = e =>
+		setState({ ...state, [e.target.name]: e.target.value });
+
+	const handleSubmit = e => {
+		e.preventDefault();
+		login(state);
+	};
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -40,7 +66,7 @@ const Login = () => {
 				<Typography component='h1' variant='h5'>
           Log in
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form className={classes.form} noValidate onSubmit={handleSubmit}>
 					<TextField
 						variant='outlined'
 						margin='normal'
@@ -51,6 +77,7 @@ const Login = () => {
 						id='username'
 						autoComplete='username'
 						autoFocus
+						onChange={handleChange}
 					/>
 					<TextField
 						variant='outlined'
@@ -62,6 +89,7 @@ const Login = () => {
 						type='password'
 						id='password'
 						autoComplete='current-password'
+						onChange={handleChange}
 					/>
 					<Button
 						type='submit'
@@ -70,7 +98,7 @@ const Login = () => {
 						color='primary'
 						className={classes.submit}
 					>
-            Sign In
+            Log In
 					</Button>
 				</form>
 			</div>
