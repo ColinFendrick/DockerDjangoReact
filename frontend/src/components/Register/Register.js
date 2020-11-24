@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Avatar, Button, Container,  CssBaseline, TextField, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -7,12 +7,12 @@ import { useAuthContext } from '../../hooks';
 import { Message } from '..';
 import { useFormStyles } from '../../styles';
 
-const Login = () => {
+const Register = () => {
 	const classes = useFormStyles();
 	const [state, setState] = useState({
 		username: '', password: ''
 	});
-	const { authState, login } = useAuthContext();
+	const { authState, register } = useAuthContext();
 	const history = useHistory();
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ const Login = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		login(state);
+		register(state);
 	};
 
 	return (
@@ -40,7 +40,7 @@ const Login = () => {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component='h1' variant='h5'>
-          Log in
+          Register
 				</Typography>
 				<form className={classes.form} noValidate onSubmit={handleSubmit}>
 					<TextField
@@ -51,7 +51,7 @@ const Login = () => {
 						name='username'
 						label='User Name'
 						id='username'
-						autoComplete='username'
+						autoComplete='off'
 						autoFocus
 						onChange={handleChange}
 					/>
@@ -64,7 +64,7 @@ const Login = () => {
 						label='Password'
 						type='password'
 						id='password'
-						autoComplete='current-password'
+						autoComplete='off'
 						onChange={handleChange}
 					/>
 					<Button
@@ -74,17 +74,12 @@ const Login = () => {
 						color='primary'
 						className={classes.submit}
 					>
-            Log In
+            Register
 					</Button>
 				</form>
-				<Typography>
-					<Link to='/register' className='unstyled-link'>
-						If you need to register, click here
-					</Link>
-				</Typography>
 			</div>
 		</Container>
 	);
 };
 
-export default Login;
+export default Register;

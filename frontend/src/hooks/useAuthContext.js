@@ -63,6 +63,19 @@ const useAuthContext = () => {
 		}
 	};
 
+	const register = async data => {
+		try {
+			set({ loading: true });
+			await AuthService.register(data);
+			set({ loading: false, error: null, message: 'Success. Logging you in now.' });
+			setTimeout(() => {
+				login(data);
+			}, 1000);
+		} catch (error) {
+			set(defaultContext, { error, message: 'Something went wrong registering.' });
+		}
+	};
+
 	const checkForToken = () => {
 		const token = localStorage.getItem('token');
 		if (token === null) {
@@ -86,6 +99,7 @@ const useAuthContext = () => {
 		logout,
 		checkForToken,
 		updatePassword,
+		register,
 
 		authState,
 		setAuthState

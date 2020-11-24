@@ -10,6 +10,7 @@ import App from './App';
 
 describe('Testing Logging in Integration', () => {
 	const fakeUserResponse = { key: 'fake_access_token' };
+	const noopRes = (req, res) => res();
 
 	const server = setupServer(
 		rest.post(
@@ -18,11 +19,15 @@ describe('Testing Logging in Integration', () => {
 		),
 		rest.post(
 			`${settings.API_SERVER}/api/auth/update_password`,
-			(req, res) => res()
+			noopRes
+		),
+		rest.post(
+			`${settings.API_SERVER}/api/auth/register`,
+			noopRes
 		),
 		rest.post(
 			`${settings.API_SERVER}/api/auth/logout`,
-			(req, res) => res()
+			noopRes
 		)
 	);
 	setup(beforeEach, beforeAll, afterAll)(
@@ -67,7 +72,6 @@ describe('Testing Logging in Integration', () => {
 
 	test('Logs in, changes password, logs in with new password', async () => {
 		jest.useFakeTimers();
-
 		// First time on login screen
 		let username = await screen.findByRole('textbox', { name: 'User Name' });
 		let password = await screen.findByLabelText('Password *');
@@ -94,10 +98,7 @@ describe('Testing Logging in Integration', () => {
 		userEvent.click(newSubmit);
 		await screen.findByText('Password successfully updated. Logging you out in three seconds.');
 
-		// Advance three seconds for logout redirect
-		act(() =>
-			jest.advanceTimersByTime(3000)
-		);
+		act(() => jest.advanceTimersByTime(3000));
 
 		// Back on login screen
 		username = await screen.findByRole('textbox', { name: 'User Name' });
@@ -110,6 +111,29 @@ describe('Testing Logging in Integration', () => {
 		userEvent.click(submit);
 
 		// Back at it again with the logged in screen
+		await screen.findByText('Iris Flower Dimensions');
+		expect(localStorage.getItem('token')).toEqual(fakeUserResponse.key);
+	});
+
+	test('Registers a new user', async () => {
+		jest.useFakeTimers();
+
+		userEvent.click(
+			screen.getByText(/register/)
+		);
+
+		await screen.findByRole('heading', { name: 'Register' });
+		const username = await screen.findByRole('textbox', { name: 'User Name' });
+		const password = await screen.findByLabelText('Password *');
+		const submit = await screen.findByRole('button', { name: 'Register' });
+
+		userEvent.type(username, 'sample');
+		userEvent.type(password, 'new-sample-password');
+		userEvent.click(submit);
+
+		await screen.findByText('Success. Logging you in now.');
+		act(() => jest.advanceTimersByTime(1000));
+
 		await screen.findByText('Iris Flower Dimensions');
 		expect(localStorage.getItem('token')).toEqual(fakeUserResponse.key);
 	});

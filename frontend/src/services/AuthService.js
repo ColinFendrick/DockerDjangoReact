@@ -8,10 +8,13 @@ const logout = token => http.post(`${prefix}/logout`, {}, { headers: { 'Authoriz
 
 const updatePassword = (data, token) => http.post(`${prefix}/update_password`, data, { headers: { 'Authorization': `Token ${token}` }});
 
+const register = data => http.post(`${prefix}/register`, data);
+
 const service = {
 	login,
 	logout,
-	updatePassword
+	updatePassword,
+	register
 };
 
 export default service;

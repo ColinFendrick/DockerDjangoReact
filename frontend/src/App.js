@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { useAuthContext } from './hooks';
-import { Home, Login, UpdatePassword } from './components';
+import { Home, Login, UpdatePassword, Register } from './components';
 
 const PrivateRoute = ({ isAuthenticated, children, ...rest }) => (
 	<Route
@@ -32,10 +32,10 @@ const App = props => {
 		<div>
 			<Switch>
 				<Route path='/login' exact component={Login} />
+				<Route path='/register' exact component={Register} />
 				<PrivateRoute exact path='/' isAuthenticated={!!authState.token}>
 					<Home {...props}/>
 				</PrivateRoute>
-
 				<PrivateRoute exact path='/update-password' isAuthenticated={!!authState.token}>
 					<UpdatePassword {...props}/>
 				</PrivateRoute>
