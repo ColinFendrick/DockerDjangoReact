@@ -1,5 +1,5 @@
 import {
-	pipe, update
+	pipe, update, titleCase
 } from './generics';
 
 describe('Testing pipe fn', () => {
@@ -51,5 +51,29 @@ describe('Testing update fn', () => {
 		const obj = { foo: 'bar' };
 		update(obj)({ foo: 'baz' });
 		expect(obj).toEqual({ foo: 'bar' });
+	});
+});
+
+describe('Testing titleCase', () => {
+	test('Works with a string', () => {
+		expect(
+			titleCase('i\'M a LITTLe TeaPOt')
+		).toEqual('I\'m A Little Teapot');
+	});
+
+	test('Works with null', () => {
+		expect(
+			titleCase(undefined)
+		).toEqual('');
+	});
+
+	test('Works with other data structures', () => {
+		expect(
+			titleCase([1])
+		).toEqual('');
+
+		expect(
+			titleCase({ foo: 'bar' })
+		).toEqual('');
 	});
 });

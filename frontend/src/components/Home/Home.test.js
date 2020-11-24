@@ -11,7 +11,7 @@ describe('Testing <Home />', () => {
 
 	test('Renders', () => {
 		expect(
-			screen.getByText('Home Page')
+			screen.getByText('Iris Flower Dimensions')
 		).toBeInTheDocument();
 	});
 });

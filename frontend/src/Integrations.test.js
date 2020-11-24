@@ -50,7 +50,7 @@ describe('Testing Logging in Integration', () => {
 		userEvent.type(password, 'sample');
 		userEvent.click(submit);
 
-		await screen.findByText('Home Page');
+		await screen.findByText('Iris Flower Dimensions');
 		expect(localStorage.getItem('token')).toEqual(fakeUserResponse.key);
 
 		userEvent.click(

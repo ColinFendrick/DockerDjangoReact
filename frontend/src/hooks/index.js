@@ -1,5 +1,7 @@
 import useAuthContext from './useAuthContext';
+import usePredictionContext from './usePredictionContext';
 
 export {
-	useAuthContext
+	useAuthContext,
+	usePredictionContext
 };

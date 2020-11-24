@@ -1,8 +1,11 @@
 import { AuthProvider } from '../context/AuthContext';
+import { PredictionProvider } from '../context/PredictionContext';
 
 const ContextContainer = ({ children }) => (
 	<AuthProvider>
-		{ children }
+		<PredictionProvider>
+			{ children }
+		</PredictionProvider>
 	</AuthProvider>
 );
 
