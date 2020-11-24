@@ -4,6 +4,7 @@ import {
 	render,
 	setup,
 	withContext,
+	withRouter,
 	withWrapper
 } from '../../setupTests';
 import { AuthContext } from '../../context/AuthContext';
@@ -12,7 +13,7 @@ import Header from './Header';
 
 describe('Testing <Header />', () => {
 	setup(beforeEach)(
-		() => render(withContext)(<Header />)
+		() => render(withRouter, withContext)(<Header />)
 	);
 
 	test('Renders', () => {
@@ -29,6 +30,7 @@ describe('Testing <Header />', () => {
 describe('Testing with updated context', () => {
 	setup(beforeEach)(
 		() => render(
+			withRouter,
 			withWrapper(
 				AuthContext.Provider,
 				{ value: [{ token: 'faketoken' }]}

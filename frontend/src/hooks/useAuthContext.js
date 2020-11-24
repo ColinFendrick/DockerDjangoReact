@@ -14,19 +14,19 @@ const useAuthContext = () => {
 		set();
 	}, expirationTime);
 
-	const login = async ({ username, password }) => {
+	const login = async data => {
 		try {
 			set({ loading: true, error: null });
-			const res = await AuthService.login({ username, password });
+			const res = await AuthService.login(data);
 			const token = res.data.key;
 			const expirationDate = new Date(new Date().getTime() + settings.SESSION_DURATION);
 			localStorage.setItem('token', token);
 			localStorage.setItem('expirationDate', expirationDate);
 
-			set(defaultContext, { token });
+			set(defaultContext, { token, message: 'Successfully logged in!' });
 			setLogoutTimer(settings.SESSION_DURATION);
 		} catch (error) {
-			set(defaultContext, { error });
+			set(defaultContext, { error, message: `${error.message}: Your credentials are probably incorrect.` });
 		}
 	};
 
@@ -43,7 +43,22 @@ const useAuthContext = () => {
 				localStorage.removeItem('expirationDate');
 				set();
 			} catch (error) {
-				set({ error, loading: false });
+				set({ error, loading: false, message: error.message });
+			}
+		}
+	};
+
+	const updatePassword = async data => {
+		const token = checkForToken();
+		if (token !== null) {
+			try {
+				set({ loading: true });
+				await AuthService.updatePassword(data, token);
+				set({ error: null, loading: false, message: 'Password successfully updated. Logging you out in three seconds.' });
+
+				setLogoutTimer(3000);
+			} catch (error) {
+				set({ error, loading: false, message: 'Your password is too simple. Must be an uncommon password of at least eight characters' });
 			}
 		}
 	};
@@ -52,13 +67,16 @@ const useAuthContext = () => {
 		const token = localStorage.getItem('token');
 		if (token === null) {
 			logout();
+			return null;
 		} else {
 			const expirationDate = new Date(localStorage.getItem('expirationDate'));
 			if (expirationDate <= new Date()) {
 				logout();
+				return null;
 			} else {
 				set(defaultContext, { token });
 				setLogoutTimer(expirationDate.getTime() - new Date().getTime());
+				return token;
 			}
 		}
 	};
@@ -67,6 +85,7 @@ const useAuthContext = () => {
 		login,
 		logout,
 		checkForToken,
+		updatePassword,
 
 		authState,
 		setAuthState

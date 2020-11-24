@@ -3,7 +3,8 @@ import { useState, createContext } from 'react';
 const defaultContext = {
 	loading: false,
 	error: null,
-	token: null
+	token: null,
+	message: ''
 };
 
 const AuthContext = createContext([{}, () => {}]);

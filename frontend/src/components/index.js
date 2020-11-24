@@ -1,11 +1,13 @@
+import Login from './Login/Login';
 import Home from './Home/Home';
+import UpdatePassword from './UpdatePassword/UpdatePassword';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
-import Login from './Login/Login';
 
 export {
-	Home,
 	Login,
+	Home,
+	UpdatePassword,
 	Header,
 	Footer
 };

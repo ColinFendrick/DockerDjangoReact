@@ -6,7 +6,7 @@ const login = ({ username, password }) => http.post(`${prefix}/login`, { usernam
 
 const logout = token => http.post(`${prefix}/logout`, {}, { headers: { 'Authorization': `Token ${token}` }});
 
-const updatePassword = () => http.post(`${prefix}/update_password`);
+const updatePassword = (data, token) => http.post(`${prefix}/update_password`, data, { headers: { 'Authorization': `Token ${token}` }});
 
 const service = {
 	login,

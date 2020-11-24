@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -15,6 +15,10 @@ describe('Testing Logging in Integration', () => {
 		rest.post(
 			`${settings.API_SERVER}/api/auth/login`,
 			(req, res, ctx) => res(ctx.json(fakeUserResponse))
+		),
+		rest.post(
+			`${settings.API_SERVER}/api/auth/update_password`,
+			(req, res) => res()
 		),
 		rest.post(
 			`${settings.API_SERVER}/api/auth/logout`,
@@ -59,5 +63,54 @@ describe('Testing Logging in Integration', () => {
 
 		await screen.findByRole('textbox', { name: 'User Name' });
 		expect(localStorage.getItem('token')).toBeNull();
+	});
+
+	test('Logs in, changes password, logs in with new password', async () => {
+		jest.useFakeTimers();
+
+		// First time on login screen
+		let username = await screen.findByRole('textbox', { name: 'User Name' });
+		let password = await screen.findByLabelText('Password *');
+		let submit = await screen.findByRole('button', { name: 'Log In' });
+
+		userEvent.type(username, 'sample');
+		userEvent.type(password, 'sample');
+		userEvent.click(submit);
+
+		// Is logged in
+		await screen.findByText('Iris Flower Dimensions');
+		expect(localStorage.getItem('token')).toEqual(fakeUserResponse.key);
+		userEvent.click(
+			screen.getByRole('link', { name: 'Update Password' })
+		);
+
+		// On the update pw screen
+		const new_pw1 = await screen.findByLabelText('Enter New Password *');
+		const new_pw2 = await screen.findByLabelText('Enter Your Password Again *');
+		const newSubmit = await screen.findByRole('button', { name: 'Submit New Password' });
+
+		userEvent.type(new_pw1, 'new-sample-password');
+		userEvent.type(new_pw2, 'new-sample-password');
+		userEvent.click(newSubmit);
+		await screen.findByText('Password successfully updated. Logging you out in three seconds.');
+
+		// Advance three seconds for logout redirect
+		act(() =>
+			jest.advanceTimersByTime(3000)
+		);
+
+		// Back on login screen
+		username = await screen.findByRole('textbox', { name: 'User Name' });
+		password = await screen.findByLabelText('Password *');
+		submit = await screen.findByRole('button', { name: 'Log In' });
+		expect(localStorage.getItem('token')).toBeNull();
+
+		userEvent.type(username, 'sample');
+		userEvent.type(password, 'new-sample-password');
+		userEvent.click(submit);
+
+		// Back at it again with the logged in screen
+		await screen.findByText('Iris Flower Dimensions');
+		expect(localStorage.getItem('token')).toEqual(fakeUserResponse.key);
 	});
 });

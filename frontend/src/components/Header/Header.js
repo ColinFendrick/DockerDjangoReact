@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,8 +28,15 @@ const Header = () => {
 			<AppBar position='static'>
 				<Toolbar>
 					<Typography variant='h6' className={classes.title}>
-            Iris Species Predictor
+						<Link to='/' className='unstyled-link'>
+							Iris Species Predictor
+						</Link>
 					</Typography>
+					{authState.token ? <Button color='inherit'>
+						<Link to='/update-password' className='unstyled-link'>
+							Update Password
+						</Link>
+					</Button> : null}
 					{authState.token ? <Button color='inherit' onClick={logout}>Logout</Button> : null}
 				</Toolbar>
 			</AppBar>
