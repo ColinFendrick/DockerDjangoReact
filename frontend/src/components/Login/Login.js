@@ -2,38 +2,13 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Avatar, Button, Container,  CssBaseline, TextField, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { useAuthContext } from '../../hooks';
-
-const useStyles = makeStyles(theme => ({
-	paper: {
-		marginTop: theme.spacing(8),
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center'
-	},
-	avatar: {
-		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main
-	},
-	form: {
-		width: '100%',
-		marginTop: theme.spacing(1)
-	},
-	submit: {
-		margin: theme.spacing(3, 0, 2)
-	},
-	success: {
-		color: theme.palette.success.main
-	},
-	error: {
-		color: theme.palette.error.main
-	}
-}));
+import { Message } from '..';
+import { useFormStyles } from '../../styles';
 
 const Login = () => {
-	const classes = useStyles();
+	const classes = useFormStyles();
 	const [state, setState] = useState({
 		username: '', password: ''
 	});
@@ -59,15 +34,7 @@ const Login = () => {
 			<CssBaseline />
 			<div className={classes.paper}>
 
-				{authState.message && !authState.error ? (
-					<Typography variant='button' className={classes.success} gutterBottom>
-						{authState.message}
-					</Typography>
-				) : authState.message && authState.error ? (
-					<Typography variant='button' className={classes.error} gutterBottom>
-						{authState.message}
-					</Typography>
-				) : null}
+				<Message message={authState.message} error={!!authState.error} />
 
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />

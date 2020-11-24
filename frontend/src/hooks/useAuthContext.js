@@ -16,7 +16,7 @@ const useAuthContext = () => {
 
 	const login = async data => {
 		try {
-			set({ loading: true, error: null });
+			set(defaultContext, { loading: true });
 			const res = await AuthService.login(data);
 			const token = res.data.key;
 			const expirationDate = new Date(new Date().getTime() + settings.SESSION_DURATION);

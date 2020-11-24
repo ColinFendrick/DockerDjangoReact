@@ -15,11 +15,11 @@ const usePredictionContext = () => {
 		const token = checkForToken();
 		if (token !== null) {
 			try {
-				set({ loading: true, error: null });
+				set(defaultContext, { loading: true });
 				const res = await PredictionService.post(data, token);
-				set({ loading: false, error: null, prediction: res.data['Predicted Iris Species'] });
+				set(defaultContext, { prediction: res.data['Predicted Iris Species'] });
 			} catch (error) {
-				set({ error, loading: false });
+				set(defaultContext, { error });
 			}
 		}
 	};
